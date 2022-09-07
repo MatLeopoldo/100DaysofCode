@@ -20,8 +20,8 @@ def initialize_screen():
 
 
 def tail_collision_detected(snake):
-        for index in range(1, len(snake.segments)):
-            if snake.head.distance(snake.segments[index]) < TAIL_MIN_DIS:
+        for segment in snake.segments[1:]:
+            if snake.head.distance(segment) < TAIL_MIN_DIS:
                 return True
         return False
 
