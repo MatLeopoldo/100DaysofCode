@@ -50,10 +50,10 @@ def check_paddles_collision(ball, paddles):
 
 def check_goal(ball, score_board):
     if ball.xcor() < PLAYERS_POS[0][0]:
-        score_board.right_player_score += 1
+        score_board.right_player_goal()
         return True
     elif ball.xcor() > PLAYERS_POS[1][0]:
-        score_board.left_player_score += 1
+        score_board.left_player_goal()
         return True
     else:
         return False

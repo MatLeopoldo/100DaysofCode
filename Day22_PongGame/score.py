@@ -52,6 +52,14 @@ class ScoreBoard(Turtle):
         self.clear()
         self.draw_center_line()
         self.print_score()
+    
+
+    def left_player_goal(self):
+        self.left_player_score += 1
+
+    
+    def right_player_goal(self):
+        self.right_player_score += 1
 
 
 
