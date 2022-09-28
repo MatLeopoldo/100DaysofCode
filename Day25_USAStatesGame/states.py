@@ -35,8 +35,8 @@ class USAStates(Turtle):
 
 
     def write_state(self, answer):
-        pos_x = int(self.data_csv.loc[self.data_csv["state"] == answer]['x'])
-        pos_y = int(self.data_csv.loc[self.data_csv["state"] == answer]['y'])
+        pos_x = int(self.data_csv[self.data_csv["state"] == answer]['x'])
+        pos_y = int(self.data_csv[self.data_csv["state"] == answer]['y'])
         self.goto(pos_x, pos_y)
         self.write(answer, align=TEXT_ALIGNMENT, font=GAME_FONT)
 
