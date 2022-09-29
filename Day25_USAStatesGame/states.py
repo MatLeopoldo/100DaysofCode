@@ -14,8 +14,8 @@ class USAStates(Turtle):
         self.penup()
         self.hideturtle()
         
-        self.data_csv = pd.read_csv(STATES_CSV_PATHNAME)
-        self.states = self.data_csv["state"].to_list()
+        data_csv = pd.read_csv(STATES_CSV_PATHNAME)
+        self.states = {row.state: {'x': row.x, 'y': row.y} for (_, row) in data_csv.iterrows()}
         self.num_states = len(self.states)
 
 
@@ -24,7 +24,7 @@ class USAStates(Turtle):
 
     
     def check_answer(self, answer):
-        if answer in self.states:
+        if answer in self.states.keys():
             return True
         else:
             return False
@@ -35,14 +35,12 @@ class USAStates(Turtle):
 
 
     def write_state(self, answer):
-        pos_x = int(self.data_csv[self.data_csv["state"] == answer]['x'])
-        pos_y = int(self.data_csv[self.data_csv["state"] == answer]['y'])
-        self.goto(pos_x, pos_y)
+        self.goto(self.states[answer]['x'], self.states[answer]['y'])
         self.write(answer, align=TEXT_ALIGNMENT, font=GAME_FONT)
 
     
     def remove_state_from_list(self, answer):
-        self.states.remove(answer)
+        self.states.pop(answer)
 
 
     def update_game(self, answer):
