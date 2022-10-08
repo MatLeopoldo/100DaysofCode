@@ -1,12 +1,12 @@
 import tkinter as ttk
 from tkinter import messagebox
-import os
-import csv
 import random as rd
+import json
 
 APP_PADDING = 50
 CANVAS_SQUARE_LENGTH = 330
-WEBSITE_ENTRY_LENGTH = 40
+WEBSITE_ENTRY_LENGTH = 20
+WEBSITE_BUTTON_LENGTH = 16
 USER_ENTRY_LENGTH = 40
 PASSWORD_ENTRY_LENGTH = 20
 PASSWORD_BUTTON_LENGTH = 16
@@ -15,7 +15,7 @@ WIDGETS_PADX = 5
 WIDGETS_PADY = 2
 LOGO_COORDINATES = {'x': CANVAS_SQUARE_LENGTH / 2, 'y': CANVAS_SQUARE_LENGTH / 2}
 LOGO_PATHNAME = "Day29_PasswordManager/logo.png"
-PASSWORD_FILE_PATHNAME = "Day29_PasswordManager/passwords_list.csv"
+PASSWORD_FILE_PATHNAME = "Day29_PasswordManager/passwords_list.json"
 USER_ENTRY_DEFAULT_VALUE = "my_email@gmail.com"
 PASSWORD_FILE_COLUMNS_NAMES = ["Website", "User", "Password"]
 
@@ -35,7 +35,6 @@ class PasswordApp(ttk.Tk):
         super().__init__()
         self.__initialize_window()
         self.__initialize_widgets()
-        self.__create_csv_file()
 
 
     def __initialize_window(self):
@@ -59,8 +58,12 @@ class PasswordApp(ttk.Tk):
         self.website_label.grid(row=1, column=0, sticky='e', padx=WIDGETS_PADX, pady=WIDGETS_PADY)
 
         self.website_entry = ttk.Entry(width=WEBSITE_ENTRY_LENGTH)
-        self.website_entry.grid(row=1, column=1, columnspan=2, sticky='w', pady=WIDGETS_PADY)
+        self.website_entry.grid(row=1, column=1, sticky='w', pady=WIDGETS_PADY)
         self.website_entry.focus()
+
+        self.gen_password_button = ttk.Button(text="Search", background="white", 
+                                              command=self.__search_account, width=PASSWORD_BUTTON_LENGTH)
+        self.gen_password_button.grid(row=1, column=2, sticky='w', padx=WIDGETS_PADX, pady=WIDGETS_PADY)
 
 
     def __initialize_user_widgets(self):
@@ -93,18 +96,38 @@ class PasswordApp(ttk.Tk):
         website = self.website_entry.get()
         user = self.user_entry.get()
         password = self.password_entry.get()
+        new_account = { 
+            website: {
+                "user": user,
+                "password": password
+            }
+        }
 
         if website != "" and user != "" and password != "":
             if messagebox.askokcancel(title=website, message=self.__create_info_text(user, password)):
-                with open(PASSWORD_FILE_PATHNAME, 'a') as psw_file:
-                    csv_writer = csv.writer(psw_file)
-                    csv_writer.writerow([website, user, password])
-            
-                self.website_entry.delete(0, ttk.END)
-                self.password_entry.delete(0, ttk.END)
+                try:
+                    with open(PASSWORD_FILE_PATHNAME, 'r') as accounts_file:
+                        accounts_json = json.load(accounts_file)
+                        accounts_json.update(new_account)
+                except FileNotFoundError:
+                        accounts_json = new_account
+                finally:
+                    with open(PASSWORD_FILE_PATHNAME, 'w') as accounts_file:
+                        json.dump(accounts_json, accounts_file, indent=4)
+
+                    self.website_entry.delete(0, ttk.END)
+                    self.password_entry.delete(0, ttk.END)
         else:
-            messagebox.showwarning(title="Empty field(s)", message="Please, make sure all fields are filled.")
+            messagebox.showwarning(title="Empty field(s)", message="Please, make sure all fields are filled in.")
     
+
+    def __create_info_text(self, user, password):
+        info_text = "These are the details entered:\n"
+        user_text = "Username/Email: " + user + "\n"
+        password_text = "Password: " + password + "\n"
+        question_text = "Is it ok to save?"
+        return info_text + user_text + password_text + question_text
+
 
     def __generate_password(self):
         letter_list = [rd.choice(letters) for _ in range(rd.randint(8, 10))]
@@ -114,21 +137,24 @@ class PasswordApp(ttk.Tk):
         rd.shuffle(password_list)
         self.password_entry.delete(0, ttk.END)
         self.password_entry.insert(0, ''.join(password_list))
-        
-
-    def __create_csv_file(self):
-        if not os.path.isfile(PASSWORD_FILE_PATHNAME):
-            with open(PASSWORD_FILE_PATHNAME, 'a') as psw_file:
-                csv_writer = csv.writer(psw_file)
-                csv_writer.writerow(PASSWORD_FILE_COLUMNS_NAMES)
 
     
-    def __create_info_text(self, user, password):
-        info_text = "These are the details entered:\n"
-        user_text = "Username/Email: " + user + "\n"
-        password_text = "Password: " + password + "\n"
-        question_text = "Is it ok to save?"
-        return info_text + user_text + password_text + question_text
+    def __search_account(self):
+        website = self.website_entry.get()
+
+        if website != "":
+            try:
+                with open(PASSWORD_FILE_PATHNAME, 'r') as accounts_file:
+                    accounts_json = json.load(accounts_file)
+                    user = accounts_json[website]['user']
+                    password = accounts_json[website]['password']
+
+            except (FileNotFoundError, KeyError):
+                messagebox.showwarning(title=website, message="Account not found")
+            else:
+                messagebox.showinfo(title=website, message=f"User/Email: {user}\nPassword: {password}")
+        else:
+            messagebox.showwarning(title="Website field is empty", message="Please, fill in 'Website' field.")
 
 
 if __name__ == "__main__":

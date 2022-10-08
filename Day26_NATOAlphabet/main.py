@@ -9,7 +9,16 @@ def get_nato_alphabet(filepath):
 
 
 if __name__ == "__main__":
-    nato_alphabet = get_nato_alphabet(NATO_ALPHABET_FILEPATH)
-    user_word = input("Enter a word: ").upper()
-    nato_word = [nato_alphabet[letter] for letter in user_word]
-    print(nato_word)
+    program_is_finished = False
+
+    while not program_is_finished:
+        nato_alphabet = get_nato_alphabet(NATO_ALPHABET_FILEPATH)
+        user_word = input("Enter a word: ").upper()
+
+        try:
+            nato_word = [nato_alphabet[letter] for letter in user_word]
+        except KeyError:
+            print("Sorry, only letters in the alphabet please.")
+        else:
+            print(nato_word)
+            program_is_finished = True
