@@ -29,7 +29,7 @@ BUTTON_DISABLED = "disabled"
 BUTTON_ENABLED = "normal"
 
 
-class Pomodoro(ttk.Tk):
+class PomodoroApp(ttk.Tk):
 
     def __init__(self):
         super().__init__()
@@ -122,3 +122,8 @@ class Pomodoro(ttk.Tk):
             self.state = WORK_STATE
             self.time_sec = WORK_TIME_SECONDS
             self.state_label.config(text='Study', fg=GREEN_CODE)
+
+
+if __name__ == "__main__":
+    app = PomodoroApp()
+    app.mainloop()
