@@ -27,7 +27,6 @@ LANGUAGES = ["Inglês", "Português"]
 class FlashCardApp:
     
     def __init__(self):
-        super().__init__()
         self.__load_words_database()
         self.__initialize_window()
         self.__initialize_card()
@@ -59,8 +58,6 @@ class FlashCardApp:
         self.window = ttk.Tk()
         self.window.title("Flash Card")
         self.window.config(padx=WINDOW_PAD_VALUE, pady=WINDOW_PAD_VALUE, background=GREEN_COLOR)
-        self.card_canvas = ttk.Canvas(width=CARD_WIDTH, height=CARD_HEIGHT)
-        self.card_canvas.grid(row=0, column=0, columnspan=2, pady=20)
 
     
     def __initialize_card(self):

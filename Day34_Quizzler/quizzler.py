@@ -33,7 +33,6 @@ CHANGE_QUESTION_DELAY_MS = 500
 class QuizApp:
 
     def __init__(self) -> None:
-        super().__init__()
         self.score = 0
         self.question_number = 1
         self.__initialize_window()
