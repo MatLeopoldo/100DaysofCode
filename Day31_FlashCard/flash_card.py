@@ -15,16 +15,16 @@ OK_ICON_PATHNAME = "Day31_FlashCard/images/ok_icon.png"
 NOT_OK_ICON_PATHNAME = "Day31_FlashCard/images/not_ok_icon.png"
 ENGLISH_WORDS_PATHNAME = "Day31_FlashCard/Data/english_words.csv"
 WORDS_TO_LEARN_PATHNAME = "Day31_FlashCard/Data/words_to_learn.csv"
-LANGUAGE_FONT_STYLE = ("Ariel", 40, "italic")
+LANGUAGE_FONT_STYLE = ("Arial", 40, "italic")
 LANGUAGE_LABEL_POSITION = {'x': CARD_WIDTH / 2, 'y': 150}
-WORD_FONT_STYLE = ("Ariel", 55, "bold")
+WORD_FONT_STYLE = ("Arial", 55, "bold")
 WORD_LABEL_POSITION = {'x': CARD_WIDTH / 2, 'y': 263}
 CANVAS_ICON_DIMENSIONS = {'x': 100, 'y': 100}
 CARD_POSITION_COORDS = {'x': CARD_WIDTH / 2, 'y': CARD_HEIGHT / 2}
 LANGUAGES = ["Inglês", "Português"]
 
 
-class FlashCardApp(ttk.Tk):
+class FlashCardApp:
     
     def __init__(self):
         super().__init__()
@@ -32,6 +32,7 @@ class FlashCardApp(ttk.Tk):
         self.__initialize_window()
         self.__initialize_card()
         self.__initialize_buttons()
+        self.window.mainloop()
 
 
     def __load_words_database(self):
@@ -55,8 +56,9 @@ class FlashCardApp(ttk.Tk):
 
 
     def __initialize_window(self):
-        self.title("Flash Card")
-        self.config(padx=WINDOW_PAD_VALUE, pady=WINDOW_PAD_VALUE, background=GREEN_COLOR)
+        self.window = ttk.Tk()
+        self.window.title("Flash Card")
+        self.window.config(padx=WINDOW_PAD_VALUE, pady=WINDOW_PAD_VALUE, background=GREEN_COLOR)
         self.card_canvas = ttk.Canvas(width=CARD_WIDTH, height=CARD_HEIGHT)
         self.card_canvas.grid(row=0, column=0, columnspan=2, pady=20)
 
@@ -123,4 +125,4 @@ class FlashCardApp(ttk.Tk):
 
 if __name__ == "__main__":
     app = FlashCardApp()
-    app.mainloop()
+

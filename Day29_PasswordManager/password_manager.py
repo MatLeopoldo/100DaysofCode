@@ -29,18 +29,20 @@ digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 symbols = ['!', '@', '#', '$', '%', '&', '*', '(', ')', '+']
 
 
-class PasswordApp(ttk.Tk):
+class PasswordApp:
 
     def __init__(self):
         super().__init__()
         self.__initialize_window()
         self.__initialize_widgets()
+        self.window.mainloop()
 
 
     def __initialize_window(self):
-        self.title("Password Manager")
-        self.config(padx=APP_PADDING, pady=APP_PADDING, background="white")
-        self.canvas = ttk.Canvas(self, width=CANVAS_SQUARE_LENGTH, height=CANVAS_SQUARE_LENGTH, background="white", highlightthickness=0)
+        self.window = ttk.Tk()
+        self.window.title("Password Manager")
+        self.window.config(padx=APP_PADDING, pady=APP_PADDING, background="white")
+        self.canvas = ttk.Canvas(width=CANVAS_SQUARE_LENGTH, height=CANVAS_SQUARE_LENGTH, background="white", highlightthickness=0)
         self.app_logo = ttk.PhotoImage(file=LOGO_PATHNAME)
         self.canvas.create_image(LOGO_COORDINATES['x'], LOGO_COORDINATES['y'], image=self.app_logo)
         self.canvas.grid(row=0, column=0, columnspan=3, padx=WIDGETS_PADX, pady=WIDGETS_PADY)
@@ -159,4 +161,3 @@ class PasswordApp(ttk.Tk):
 
 if __name__ == "__main__":
     app = PasswordApp()
-    app.mainloop()
