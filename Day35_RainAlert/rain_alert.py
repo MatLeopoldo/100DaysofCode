@@ -3,7 +3,7 @@ from twilio.rest import Client
 
 MY_ACCOUNT_SID = "xxxxxxxxxxxxxxxxxxxxxxxx"
 MY_AUTH_TOKEN = "xxxxxxxxxxxxxxxxxxxxxxxx"
-PHONE_NUMBER = {'from': "+xxxxxxxxxxxx", 'to': "xxxxxxxxxxxx"}
+PHONE_NUMBER = {'from': "+xxxxxxxxxxxx", 'to': "+xxxxxxxxxxxx"}
 SMS_MESSAGE = "It's gonna rain tomorrow. Take an umbrella before going to work."
 
 MY_LATITUDE = -23.179140
@@ -17,7 +17,7 @@ WEATHER_REQUEST_PARAMETERS = {
     "cnt": 8,
     "appid": MY_APP_KEY,}
 
-POSSIBLE_RAINNING_CONDITIONS = ["Thunderstorm", "Drizzle", "Rain"]
+POSSIBLE_RAINING_CONDITIONS = ["Thunderstorm", "Drizzle", "Rain"]
 
 
 def get_weather_info():
@@ -30,7 +30,7 @@ def get_weather_info():
 def is_gonna_rain_tomorrow(weather_tomorrow):
     for three_hours_data in weather_tomorrow['list']:
         weather_condition = three_hours_data['weather'][0]["main"]
-        if weather_condition in POSSIBLE_RAINNING_CONDITIONS:
+        if weather_condition in POSSIBLE_RAINING_CONDITIONS:
             return True
     return False
 
