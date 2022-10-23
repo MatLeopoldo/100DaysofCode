@@ -36,7 +36,7 @@ REQUEST_HEADERS = {
 def create_pixela_user() -> bool:
     response = requests.post(url=CREATE_USER_ENDPOINT, json=CREATE_USER_PARAMETERS)
 
-    if response.json()['isSuccess'] == True:
+    if response.json()['isSuccess']:
         print("User created successfully!")
         return True
     else:
@@ -48,7 +48,7 @@ def create_pixela_graph() -> bool:
     response = requests.post(url=CREATE_GRAPH_ENDPOINT, json=CREATE_GRAPH_PARAMETERS, headers=REQUEST_HEADERS)
     print(response.json())
 
-    if response.json()['isSuccess'] == True:
+    if response.json()['isSuccess']:
         print("Graph created successfully!")
         return True
     else:
@@ -67,7 +67,7 @@ def add_exercise_note(date: dt.datetime, distance: float) -> bool:
     }
     response = requests.post(url=ADD_PIXEL_ENDPOINT, json=add_pixel_parameters, headers=REQUEST_HEADERS)
 
-    if response.json()['isSuccess'] == True:
+    if response.json()['isSuccess']:
         print("Exercise note added successfully!")
         return True
     else:
@@ -82,7 +82,7 @@ def update_exercise_note(date: dt.datetime, distance: float) -> bool:
     }
     response = requests.put(url=update_pixel_endpoint, json=update_pixel_parameters, headers=REQUEST_HEADERS)
 
-    if response.json()['isSuccess'] == True:
+    if response.json()['isSuccess']:
         print("Exercise note updated successfully!")
         return True
     else:
@@ -94,7 +94,7 @@ def delete_exercise_note(date: dt.datetime) -> bool:
     delete_pixel_endpoint = f"{ADD_PIXEL_ENDPOINT}/{get_date_formatted(date)}"
     response = requests.delete(url=delete_pixel_endpoint, headers=REQUEST_HEADERS)
 
-    if response.json()['isSuccess'] == True:
+    if response.json()['isSuccess']:
         print("Exercise note deleted successfully!")
         return True
     else:
