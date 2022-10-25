@@ -35,25 +35,12 @@ REQUEST_HEADERS = {
 
 def create_pixela_user() -> bool:
     response = requests.post(url=CREATE_USER_ENDPOINT, json=CREATE_USER_PARAMETERS)
+    return response.json()['isSuccess']
 
-    if response.json()['isSuccess']:
-        print("User created successfully!")
-        return True
-    else:
-        print(f"It was not possible to create a user: {response.json()['message']}")
-        return False
-    
 
 def create_pixela_graph() -> bool:
     response = requests.post(url=CREATE_GRAPH_ENDPOINT, json=CREATE_GRAPH_PARAMETERS, headers=REQUEST_HEADERS)
-    print(response.json())
-
-    if response.json()['isSuccess']:
-        print("Graph created successfully!")
-        return True
-    else:
-        print(f"It was not possible to create a graph: {response.json()['message']}")
-        return False
+    return response.json()['isSuccess']
 
 
 def get_date_formatted(date: dt.datetime) -> str:
@@ -66,14 +53,7 @@ def add_exercise_note(date: dt.datetime, distance: float) -> bool:
         'quantity': str(distance)
     }
     response = requests.post(url=ADD_PIXEL_ENDPOINT, json=add_pixel_parameters, headers=REQUEST_HEADERS)
-
-    if response.json()['isSuccess']:
-        print("Exercise note added successfully!")
-        return True
-    else:
-        print(f"It was not possible to add exercise note: {response.json()['message']}")
-        return False
-
+    return response.json()['isSuccess']
 
 def update_exercise_note(date: dt.datetime, distance: float) -> bool:
     update_pixel_endpoint = f"{ADD_PIXEL_ENDPOINT}/{get_date_formatted(date)}"
@@ -81,27 +61,15 @@ def update_exercise_note(date: dt.datetime, distance: float) -> bool:
         'quantity': str(distance)
     }
     response = requests.put(url=update_pixel_endpoint, json=update_pixel_parameters, headers=REQUEST_HEADERS)
-
-    if response.json()['isSuccess']:
-        print("Exercise note updated successfully!")
-        return True
-    else:
-        print(f"It was not possible to update exercise note: {response.json()['message']}")
-        return False
+    return response.json()['isSuccess']
 
 
 def delete_exercise_note(date: dt.datetime) -> bool:
     delete_pixel_endpoint = f"{ADD_PIXEL_ENDPOINT}/{get_date_formatted(date)}"
     response = requests.delete(url=delete_pixel_endpoint, headers=REQUEST_HEADERS)
-
-    if response.json()['isSuccess']:
-        print("Exercise note deleted successfully!")
-        return True
-    else:
-        print(f"It was not possible to delete exercise note: {response.json()['message']}")
-        return False
+    return response.json()['isSuccess']
 
 
 if __name__ == "__main__":
-    yesterday_date = dt.datetime(year=2022, month=10, day=22)
-    delete_exercise_note(yesterday_date)
+    today_date = dt.datetime(year=2022, month=10, day=22)
+    add_exercise_note(today_date, 13.5)
