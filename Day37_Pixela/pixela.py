@@ -55,6 +55,7 @@ def add_exercise_note(date: dt.datetime, distance: float) -> bool:
     response = requests.post(url=ADD_PIXEL_ENDPOINT, json=add_pixel_parameters, headers=REQUEST_HEADERS)
     return response.json()['isSuccess']
 
+
 def update_exercise_note(date: dt.datetime, distance: float) -> bool:
     update_pixel_endpoint = f"{ADD_PIXEL_ENDPOINT}/{get_date_formatted(date)}"
     update_pixel_parameters = {

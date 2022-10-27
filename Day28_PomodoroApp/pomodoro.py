@@ -29,7 +29,7 @@ BUTTON_DISABLED = "disabled"
 BUTTON_ENABLED = "normal"
 
 
-class PomodoroApp(ttk.Tk):
+class PomodoroApp:
 
     def __init__(self):
         super().__init__()
@@ -37,11 +37,16 @@ class PomodoroApp(ttk.Tk):
         self.state = RESET_STATE
         self.config_window()
         self.config_widgets()
+        self.window.mainloop()
     
 
     def config_window(self):
-        self.title("Pomodoro App")
-        self.config(padx=WINDOW_APP_PAD['x'], pady=WINDOW_APP_PAD['y'], bg=YELLOW_CODE)
+        self.window = ttk.Tk()
+        self.window.title("Pomodoro App")
+        self.window.config(padx=WINDOW_APP_PAD['x'], pady=WINDOW_APP_PAD['y'], bg=YELLOW_CODE)
+
+
+    def config_canvas(self):
         self.canvas = ttk.Canvas(width=CANVAS_DIMENSIONS['x'], height=CANVAS_DIMENSIONS['y'], bg=YELLOW_CODE, highlightthickness=0)
         self.tomato_image = ttk.PhotoImage(file=IMAGE_FILEPATH)
         self.canvas.create_image(IMAGE_POS['x'], IMAGE_POS['y'], image=self.tomato_image)
@@ -50,6 +55,8 @@ class PomodoroApp(ttk.Tk):
 
 
     def config_widgets(self):
+        self.config_canvas()
+
         self.state_label = ttk.Label(text='Timer', fg=GREEN_CODE, bg=YELLOW_CODE, font=TITLE_TEXT_STYLE)
         self.state_label.grid(row=0, column=1)
 
@@ -62,7 +69,7 @@ class PomodoroApp(ttk.Tk):
 
         self.check_label = ttk.Label(text="", fg=GREEN_CODE, bg=YELLOW_CODE, font=CHECK_TEXT_STYLE)
         self.check_label.grid(row=3, column=1)
-    
+
 
     def count_down(self):
 
@@ -74,7 +81,7 @@ class PomodoroApp(ttk.Tk):
             else:
                 self.change_state()
 
-            self.timer_id = self.after(1000, self.count_down)
+            self.timer_id = self.window.after(1000, self.count_down)
 
 
     def start_command(self):
@@ -88,7 +95,7 @@ class PomodoroApp(ttk.Tk):
 
     def reset_command(self):
         self.state = RESET_STATE
-        self.after_cancel(self.timer_id)
+        self.window.after_cancel(self.timer_id)
         self.start_button["state"] = BUTTON_ENABLED
         self.reset_button["state"] = BUTTON_DISABLED
         self.state_label.config(text='Timer')
@@ -126,4 +133,3 @@ class PomodoroApp(ttk.Tk):
 
 if __name__ == "__main__":
     app = PomodoroApp()
-    app.mainloop()
