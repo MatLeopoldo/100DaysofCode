@@ -77,7 +77,7 @@ def send_flights_prices(destinations_info: list, cheapest_flights: dict, sms_han
                    f"{flight_info['city_from']}-{flight_info['airport_from']} to " + \
                    f"{flight_info['city_to']}-{flight_info['airport_to']} on " + \
                    f"{get_date_formatted(flight_date)}."
-         sms_handler.send_sms_message(DEST_PHONE_NUMBER, message) 
+         sms_handler.send_message(DEST_PHONE_NUMBER, message) 
 
 
 if __name__ == "__main__":
@@ -90,9 +90,3 @@ if __name__ == "__main__":
    destinations_info = flight_sheet.get_destinations_info()
    cheapest_flights = get_cheapest_flights(flight_search, destinations_info, CITY_ORIGIN, date_from, date_to)
    send_flights_prices(destinations_info, cheapest_flights, sms_handler)
-
-
-
-   
-
-    

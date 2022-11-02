@@ -10,6 +10,7 @@ class SMSHandler:
         self.client = Client(self.account_id, self.auth_token)
 
     
-    def send_sms_message(self, dest_phone_number: str, text: str) -> None:
+    def send_message(self, dest_phone_number: str, text: str) -> None:
         message = self.client.messages.create(to=dest_phone_number, from_=self.from_phone_number, body=text)
         print(message.sid)
+        
