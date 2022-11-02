@@ -1,5 +1,3 @@
-from symbol import parameters
-from urllib import response
 import requests
 
 FLIGHT_SEARCH_SERVER = "https://api.tequila.kiwi.com"
